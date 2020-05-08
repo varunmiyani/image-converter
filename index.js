@@ -1,5 +1,7 @@
 const express = require('express')
 const multer = require('multer')
+// const sharp = require('sharp')
+const Jimp = require('jimp')
 
 const app = express()
 
@@ -36,15 +38,26 @@ app.post('/convertimage', async (req, res) => {
                 return res.status(400).send({status: false, message: 'Only jpg and png files are allowed'})
             }
             const image = req.file
-            const orignalPath = req.file.path.replace("\\","/").replace("\\","/")
+            const orignal = req.file.path.replace("\\","/").replace("\\","/")
+            const file = orignal.split('.')
+            const name = file[0]
+            const ext = file[1]
+            const horizontal = name+"-h."+ext
+            const vertical = name+"-v."+ext
+            const horizontalSmall = name+"-hs."+ext
+            const gallery = name+"-g."+ext
+            Jimp.read(orignal).then(image => image.resize(755, 450).write(horizontal))
+            Jimp.read(orignal).then(image => image.resize(365, 450).write(vertical))
+            Jimp.read(orignal).then(image => image.resize(365, 212).write(horizontalSmall))
+            Jimp.read(orignal).then(image => image.resize(380, 380).write(gallery))
             const data = {
-                orignal: orignalPath,
-                horizontal: 'url',
-                vertical: 'url',
-                horizontalSmall: 'url',
-                gallery: 'url'
+                orignal,
+                horizontal,
+                vertical,
+                horizontalSmall,
+                gallery
             }
-            res.send({status: true, message: "image converted successfully", data: data, image })
+            res.send({status: true, message: "image converted successfully", data })
         })
     } catch(error) {
         res.status(400).send({status: false, message: 'Something went wrong, Try after sometimes.!'})
