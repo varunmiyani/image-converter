@@ -1,0 +1,24 @@
+{
+  "name": "image-converter",
+  "version": "1.0.0",
+  "description": "convert image into different sizes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varunmiyani/image-converter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/varunmiyani/image-converter/issues"
+  },
+  "homepage": "https://github.com/varunmiyani/image-converter#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.2"
+  }
+}
