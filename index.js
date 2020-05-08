@@ -1,6 +1,5 @@
 const express = require('express')
 const multer = require('multer')
-// const sharp = require('sharp')
 const Jimp = require('jimp')
 
 const app = express()
@@ -37,15 +36,13 @@ app.post('/convertimage', async (req, res) => {
             } else if (error) {
                 return res.status(400).send({status: false, message: 'Only jpg and png files are allowed'})
             }
-            const image = req.file
             const orignal = req.file.path.replace("\\","/").replace("\\","/")
-            const file = orignal.split('.')
-            const name = file[0]
-            const ext = file[1]
-            const horizontal = name+"-h."+ext
-            const vertical = name+"-v."+ext
-            const horizontalSmall = name+"-hs."+ext
-            const gallery = name+"-g."+ext
+            const name = orignal.slice(0, orignal.length-4)
+            const ext = orignal.slice(-4)
+            const horizontal = name+"_h"+ext
+            const vertical = name+"_v"+ext
+            const horizontalSmall = name+"_hs"+ext
+            const gallery = name+"_g"+ext
             Jimp.read(orignal).then(image => image.resize(755, 450).write(horizontal))
             Jimp.read(orignal).then(image => image.resize(365, 450).write(vertical))
             Jimp.read(orignal).then(image => image.resize(365, 212).write(horizontalSmall))
